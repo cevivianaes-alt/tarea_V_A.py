@@ -1,17 +1,21 @@
+"""
+Sistema básico de gestión de tareas desarrollado en Python.
+
+El programa permite registrar, visualizar, editar y marcar tareas
+como completadas mediante un menú interactivo en consola.
+"""
+
 from datetime import datetime
+"""
+    Explica el propósito de la función y su comportamiento general.
+"""
 
 areas = []
 contador_id = 1
-#Variable que se utiliza para asignar un identificador único a cada tarea
-#Se vuelve a iniciar una lista de tareas
+
 tareas = []
 def mostrar_menu_principal():
-    #“Esta función muestra el menú principal del gestor de tareas.
-    # La función imprime en la pantalla las diferentes opciones del menú, 
-    # en donde el usuario puede seleccionar para un opciòn y realzar lo que necesite
-
     print("\n--- Gestor de Tareas ---")
-    #se coloca \n para generar un salto de línea y que vea mas ordenado
     print("1. Agregar tarea")
     print("2. Ver todas las tareas")
     print("3. Marcar tarea como completada")
@@ -20,18 +24,21 @@ def mostrar_menu_principal():
     print("6. Salir")
 
 def agregar_tarea():
-    #Esta función permite agregar una nueva tarea solicitando: 
-    #Título
-    #Descripción
-    #Prioridad
-    #Se crea un diccionario con los datos de la tarea y se guarda.
-    
     global contador_id
+
+    """
+    Solicita al usuario la información básica de una tarea y la registra
+    en la lista principal del sistema.
+
+    La función crea un diccionario que almacena los datos ingresados
+    (título, descripción y prioridad), asigna un identificador único
+    mediante un contador incremental y registra la fecha y hora de
+    creación de la tarea.
+    """
 
     titulo = input("Ingrese el título de la tarea: ")
     descripcion = input("Ingrese la descripción de la tarea: ")
     prioridad = input("Ingrese la prioridad: ")
-    #Se crea un diccionario con la información de la tarea
     
     tarea = {
         'id': contador_id,
@@ -40,36 +47,40 @@ def agregar_tarea():
         'prioridad': prioridad,
         'estado': 'pendiente',
         'fecha_creacion': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    #Se define el formato de fecha y hora en año, mes y día para la fecha: horas, minutos y segundos
     }
     
-    #Se define el formato de fecha y hora en año, mes y día para la fecha: horas, minutos y segundos.
-    #Se pone el contador para que la siente tarea se registre con el siguiente número de id correspondiente.
     tareas.append(tarea)
     contador_id += 1
     print("Tarea agregada correctamente")
 
 def ver_tareas():
-    #Esta función muestra todas las tareas registradas. 
-    #Si no existen tareas en la lista, muestra un mensaje indicando “No hay tareas pendientes.
-    #Pero si existen datos se los muestra
+    """
+    Muestra en pantalla todas las tareas registradas que se encuentran
+    en la lista principal.
+
+    Si no existen tareas almacenadas, el sistema informa al usuario que
+    no hay registros disponibles. En caso contrario, se recorre la lista
+    y se presentan los datos.
+    """
 
     if not tareas:
         print("No hay tareas pendientes")
     else:
         for i, tarea in enumerate(tareas):
-        # enumerate permite mostrar un número para cada tarea
             print(f"{i + 1}. Título: {tarea['titulo']}, Descripción: {tarea['descripcion']}, Prioridad: {tarea['prioridad']}")
             
 def completar_tarea():
-    #Función que permite marcar una tarea como completada.
-    #El usuario selecciona el número de la tarea que desea completar.
-    #Si el número es válido, el estado de la tarea cambia a 'completada
-
     ver_tareas()
+
+    """
+    Actualiza el estado de una tarea registrada dentro del gestor.
+    La función permite seleccionar una tarea existente mediante su
+    posición dentro de la lista principal y modificar su atributo
+    de estado, indicando que la actividad ha sido finalizada.
+    """
+
     try:
         numero_tarea = int(input("Ingrese el número de la tarea que desea marcar como completada: "))
-        #Validación del número ingresado
         if 1 <= numero_tarea <= len(tareas):
             tareas[numero_tarea - 1]['estado'] = 'completada'
             print("Tarea marcada como completada")
@@ -79,32 +90,36 @@ def completar_tarea():
         print("Entrada inválida. Por favor, ingrese un número.")
         
 def ver_tareas_completadas():
-    #Función que muestra únicamente las tareas que ya han sido completadas.
-    #Se filtran las tareas cuyo estado sea completada.
+    """ 
+    Presenta únicamente las tareas cuyo estado indica que han sido finalizadas.
+    Para ello se realiza un filtrado sobre la colección principal de
+    tareas, seleccionando los registros cuyo atributo 'estado'
+    corresponde a "completada". Esto permite separar las actividades
+    finalizadas de aquellas que continúan pendientes dentro del sistema.
+    """
 
     completadas = [tarea for tarea in tareas if tarea.get('estado') == 'completada']
     if not completadas:
         print("No hay tareas completadas.")
     else:
         print("\n--- Tareas Completadas ---")
-    #se coloca \n para generar un salto de línea y que vea mas ordenado
-    # Se recorren las tareas completadas y se muestran.
-
         for i, tarea in enumerate(completadas):
             print(f"{i + 1}. Título: {tarea['titulo']}, Descripción: {tarea['descripcion']}, Prioridad: {tarea['prioridad']}")
 
 def eliminar_tarea():
-    #Función que permite eliminar una tarea existente.
-    #El usuario selecciona el número de la tarea que desea eliminar.
-    #Antes de borrarla, el sistema solicita una confirmación para confirmar la acción.
+
+    """
+    Permite eliminar una tarea almacenada en el sistema.
+    Primero se muestran las tareas registradas para que el usuario pueda
+    identificar cuál desea eliminar. Luego se solicita el número de la
+    tarea seleccionada y se valida que exista dentro del rango permitido.
+    """
 
     ver_tareas()
     try:
         numero = int(input("Ingrese el número de la tarea que desea eliminar: "))
         if 1 <= numero <= len(tareas):
             confirmar = input("¿Está seguro de eliminar esta tarea? (s/n): ")   
-            #configuración antes de eliminar.
-
             if confirmar.lower() == "s":
                 tareas.pop(numero - 1)
                 print("Tarea eliminada correctamente")
@@ -116,26 +131,25 @@ def eliminar_tarea():
         print("Entrada inválida")           
 
 def editar_tarea():
-    #Función que permite modificar los datos de una tarea.
-    #El usuario puede cambiar:
-    #título
-    #descripción
-    #prioridad
-    #fecha límite
+
+    """
+    Esta función permite modifica los datos asociados a una tarea previamente registrada.
+    Una vez identificada la tarea dentro de la lista de almacenamiento,
+    el sistema permite reemplazar ciertos atributos relevantes como
+    título, descripción, prioridad o fecha límite. Esta operación
+    permite actualizar la información de una tarea sin necesidad de
+    eliminarla y volver a registrarla.
+    """
 
     ver_tareas()
     try:
         numero = int(input("Ingrese el número de la tarea que desea editar: "))
         if 1 <= numero <= len(tareas):  
             tarea = tareas[numero - 1]
-            #se solicitan los datos
-
             nuevo_titulo = input("Nuevo título: ")
             nueva_descripcion = input("Nueva descripción: ")
             nueva_prioridad = input("Nueva prioridad: ")
             nueva_fecha = input("Nueva fecha límite: ")
-            #actualizaciòn de la información
-
             tarea["titulo"] = nuevo_titulo
             tarea["descripcion"] = nueva_descripcion
             tarea["prioridad"] = nueva_prioridad
@@ -145,13 +159,14 @@ def editar_tarea():
             print("Número inválido")
     except ValueError:
         print("Entrada inválida")
-    #bucle principal del programa
-    #Esto permite que el sistema se ejecute continuamente hasta que el usuario decida salir.
-
 
 while True:
     mostrar_menu_principal()
     opcion = input("Seleccione una opción: ")
+
+# Estructura de control principal del programa
+# Mantiene activo el menú del gestor de tareas hasta que el usuario
+# seleccione la opción de salir.
 
     if opcion == "1":
         agregar_tarea()
@@ -164,10 +179,8 @@ while True:
     elif opcion == "5":
         editar_tarea()
     elif opcion == "6":
-        print("Registro Finalizado")
+        print("Finalizado")
         break
-    #por último se cierra con un break para salir del bucle while y finaliza la ejecución del programa
 
 
     
-
