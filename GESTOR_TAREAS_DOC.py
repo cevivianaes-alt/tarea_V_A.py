@@ -24,8 +24,6 @@ def mostrar_menu_principal():
     print("6. Salir")
 
 def agregar_tarea():
-    global contador_id
-
     """
     Solicita al usuario la información básica de una tarea y la registra
     en la lista principal del sistema.
@@ -35,7 +33,7 @@ def agregar_tarea():
     mediante un contador incremental y registra la fecha y hora de
     creación de la tarea.
     """
-
+    global contador_id
     titulo = input("Ingrese el título de la tarea: ")
     descripcion = input("Ingrese la descripción de la tarea: ")
     prioridad = input("Ingrese la prioridad: ")
@@ -70,15 +68,13 @@ def ver_tareas():
             print(f"{i + 1}. Título: {tarea['titulo']}, Descripción: {tarea['descripcion']}, Prioridad: {tarea['prioridad']}")
             
 def completar_tarea():
-    ver_tareas()
-
     """
     Actualiza el estado de una tarea registrada dentro del gestor.
     La función permite seleccionar una tarea existente mediante su
     posición dentro de la lista principal y modificar su atributo
     de estado, indicando que la actividad ha sido finalizada.
     """
-
+    ver_tareas()
     try:
         numero_tarea = int(input("Ingrese el número de la tarea que desea marcar como completada: "))
         if 1 <= numero_tarea <= len(tareas):
@@ -107,7 +103,6 @@ def ver_tareas_completadas():
             print(f"{i + 1}. Título: {tarea['titulo']}, Descripción: {tarea['descripcion']}, Prioridad: {tarea['prioridad']}")
 
 def eliminar_tarea():
-
     """
     Permite eliminar una tarea almacenada en el sistema.
     Primero se muestran las tareas registradas para que el usuario pueda
@@ -131,7 +126,6 @@ def eliminar_tarea():
         print("Entrada inválida")           
 
 def editar_tarea():
-
     """
     Esta función permite modifica los datos asociados a una tarea previamente registrada.
     Una vez identificada la tarea dentro de la lista de almacenamiento,
