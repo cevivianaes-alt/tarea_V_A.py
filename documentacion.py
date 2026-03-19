@@ -6,14 +6,10 @@ como completadas mediante un menú interactivo en consola.
 """
 
 from datetime import datetime
-"""
-    Explica el propósito de la función y su comportamiento general.
-"""
-
-areas = []
-contador_id = 1
 
 tareas = []
+contador_id = 1
+
 def mostrar_menu_principal():
     print("\n--- Gestor de Tareas ---")
     print("1. Agregar tarea")
@@ -154,27 +150,36 @@ def editar_tarea():
     except ValueError:
         print("Entrada inválida")
 
-while True:
-    mostrar_menu_principal()
-    opcion = input("Seleccione una opción: ")
+def main():
+    """
+    Estructura de control principal del programa.
+    Mantiene activo el menú del gestor de tareas hasta que el usuario
+    seleccione la opción de salir.
+    """
 
-# Estructura de control principal del programa
-# Mantiene activo el menú del gestor de tareas hasta que el usuario
-# seleccione la opción de salir.
+    while True:
+        mostrar_menu_principal()
+        opcion = input("Seleccione una opción: ")
 
-    if opcion == "1":
-        agregar_tarea()
-    elif opcion == "2":
-        ver_tareas()
-    elif opcion == "3":
-        completar_tarea()
-    elif opcion == "4":
-        ver_tareas_completadas()
-    elif opcion == "5":
-        editar_tarea()
-    elif opcion == "6":
-        print("Finalizado")
-        break
+        if opcion == "1":
+            agregar_tarea()
+        elif opcion == "2":
+            ver_tareas()
+        elif opcion == "3":
+            completar_tarea()
+        elif opcion == "4":
+            ver_tareas_completadas()
+        elif opcion == "5":
+            editar_tarea()
+        elif opcion == "6":
+            print("Finalizado")
+            break
+
+
+if __name__ == "__main__":
+    main()
+
+    
 
 
     
